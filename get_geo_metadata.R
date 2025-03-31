@@ -5,7 +5,7 @@ get_geo_metadata <- function(geo_id, file = FALSE) {
   metadata <- getGEO(GEO = geo_id, GSEMatrix = FALSE)
   metadata <- purrr::map(metadata@gsms, ~.x@header$characteristics_ch1) %>%
   stack() %>%
-  tidyr::separate(values, into = c("feature", "value"), sep= ": ")%>%
+  tidyr::separate(values, into = c("feature", "value"), sep= ": ") %>%
   pivot_wider(names_from= feature, values_from = value) %>%
   janitor::clean_names()
  
@@ -22,3 +22,9 @@ get_geo_metadata <- function(geo_id, file = FALSE) {
   return(metadata) 
 }
 
+metadata <- getGEO(GEO = "GSE60052", GSEMatrix = FALSE)
+metadata <- purrr::map(metadata@gsms, ~.x@header$characteristics_ch1) %>%
+  stack() %>%
+  tidyr::separate(values, into = c("feature", "value"), sep= ": ") %>%
+  pivot_wider(names_from= feature, values_from = value) %>%
+  janitor::clean_names()
